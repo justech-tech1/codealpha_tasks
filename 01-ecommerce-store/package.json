@@ -1,0 +1,24 @@
+{
+  "name": "justech-marketplace",
+  "version": "1.0.0",
+  "private": true,
+  "description": "JUSTECH Market - Node.js, Express, MySQL and Socket.IO marketplace demo",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cookie": "^0.7.2",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.12.0",
+    "socket.io": "^4.8.1"
+  }
+}
