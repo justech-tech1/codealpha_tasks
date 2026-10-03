@@ -1,0 +1,1936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>JUSTECH Market</title>
+
+    <meta
+        name="description"
+        content="JUSTECH Market — a modern marketplace demo built by JUSTECH."
+    >
+
+    <style>
+        :root {
+            --bg: #f6f8fb;
+            --surface: #ffffff;
+            --surface-2: #f0f3f7;
+            --text: #17202a;
+            --muted: #687386;
+            --border: #dfe5ec;
+            --primary: #0b7a68;
+            --primary-dark: #075d50;
+            --danger: #c0392b;
+            --shadow: 0 12px 35px rgba(23, 32, 42, 0.08);
+            --radius: 16px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #101617;
+                --surface: #182020;
+                --surface-2: #202b2b;
+                --text: #eef4f3;
+                --muted: #a8b6b4;
+                --border: #2c3b3a;
+                --primary: #25a98e;
+                --primary-dark: #1d8c76;
+                --shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: var(--bg);
+            color: var(--text);
+            font: 15px/1.55 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
+        }
+
+        button,
+        .btn {
+            border: 0;
+            border-radius: 12px;
+            padding: 11px 16px;
+            cursor: pointer;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+        }
+
+        button:hover,
+        .btn:hover {
+            background: var(--primary-dark);
+        }
+
+        button.secondary,
+        .btn.secondary {
+            background: var(--surface-2);
+            color: var(--text);
+        }
+
+        button.danger {
+            background: var(--danger);
+        }
+
+        button:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 11px 13px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--surface);
+            color: var(--text);
+            outline: none;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--primary);
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background: color-mix(in srgb, var(--surface) 94%, transparent);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header {
+            max-width: 1240px;
+            margin: auto;
+            padding: 13px 18px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.35rem;
+            font-weight: 900;
+            color: var(--primary);
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .search {
+            flex: 1;
+            min-width: 230px;
+            position: relative;
+        }
+
+        .search input {
+            padding-left: 42px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted);
+        }
+
+        nav {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        nav a,
+        nav button {
+            padding: 8px 10px;
+            border-radius: 10px;
+            background: transparent;
+            color: var(--text);
+            border: 0;
+            text-decoration: none;
+        }
+
+        nav a:hover,
+        nav button:hover {
+            background: var(--surface-2);
+            color: var(--primary);
+        }
+
+        main {
+            width: min(1240px, calc(100% - 32px));
+            margin: 0 auto;
+            padding: 28px 0 60px;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.4fr .6fr;
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+        .hero-main,
+        .hero-side {
+            background: linear-gradient(135deg, var(--surface), var(--surface-2));
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            padding: 28px;
+            box-shadow: var(--shadow);
+        }
+
+        .hero h1 {
+            margin: 0 0 8px;
+            font-size: clamp(2rem, 5vw, 4rem);
+            line-height: 1;
+        }
+
+        .hero p {
+            color: var(--muted);
+            max-width: 650px;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin: 28px 0 14px;
+        }
+
+        .section-title h1,
+        .section-title h2 {
+            margin: 0;
+        }
+
+        .toolbar {
+            display: grid;
+            grid-template-columns: 1.2fr .8fr .7fr .7fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .product-card {
+            overflow: hidden;
+            transition: transform .18s ease, box-shadow .18s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .product-image {
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            display: block;
+            object-fit: cover;
+            background: var(--surface-2);
+        }
+
+        .product-body {
+            padding: 14px;
+        }
+
+        .product-body h3 {
+            margin: 5px 0 8px;
+            font-size: 1rem;
+        }
+
+        .product-body h3 a {
+            text-decoration: none;
+        }
+
+        .price {
+            font-size: 1.1rem;
+            font-weight: 800;
+        }
+
+        .old-price {
+            margin-left: 7px;
+            color: var(--muted);
+            text-decoration: line-through;
+        }
+
+        .muted {
+            color: var(--muted);
+        }
+
+        .rating {
+            color: #d88a00;
+        }
+
+        .row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .space-between {
+            justify-content: space-between;
+        }
+
+        .stack {
+            display: grid;
+            gap: 14px;
+        }
+
+        .panel {
+            padding: 22px;
+        }
+
+        .product-detail {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .gallery-main {
+            width: 100%;
+            aspect-ratio: 1 / .78;
+            object-fit: cover;
+            border-radius: 18px;
+            background: var(--surface-2);
+        }
+
+        .thumbs {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            overflow-x: auto;
+        }
+
+        .thumbs img {
+            width: 74px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .thumbs img:hover {
+            border-color: var(--primary);
+        }
+
+        .specs {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 18px 0;
+        }
+
+        .specs td {
+            border-bottom: 1px solid var(--border);
+            padding: 9px 4px;
+        }
+
+        .form-card {
+            max-width: 480px;
+            margin: 30px auto;
+        }
+
+        .form-card .panel {
+            padding: 26px;
+        }
+
+        label {
+            display: grid;
+            gap: 6px;
+            font-weight: 650;
+        }
+
+        .form-group {
+            display: grid;
+            gap: 13px;
+            margin: 15px 0;
+        }
+
+        .cart-item {
+            display: grid;
+            grid-template-columns: 80px 1fr auto;
+            gap: 15px;
+            align-items: center;
+            padding: 14px;
+        }
+
+        .cart-item img {
+            width: 80px;
+            height: 65px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .quantity {
+            display: inline-flex;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .quantity button {
+            border-radius: 0;
+            background: var(--surface-2);
+            color: var(--text);
+            padding: 7px 10px;
+        }
+
+        .quantity span {
+            min-width: 34px;
+            display: grid;
+            place-items: center;
+        }
+
+        .review {
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .empty {
+            padding: 40px 20px;
+            text-align: center;
+            color: var(--muted);
+        }
+
+        .loading {
+            padding: 35px 10px;
+            text-align: center;
+            color: var(--muted);
+        }
+
+        .error {
+            padding: 15px;
+            border-radius: 12px;
+            background: rgba(192, 57, 43, .1);
+            color: var(--danger);
+        }
+
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: 24px;
+            transform: translateX(-50%);
+            z-index: 100;
+            background: var(--text);
+            color: var(--bg);
+            padding: 12px 18px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            display: none;
+            max-width: min(500px, calc(100% - 30px));
+        }
+
+        .assistant {
+            position: fixed;
+            right: 18px;
+            bottom: 18px;
+            z-index: 50;
+            width: min(380px, calc(100% - 36px));
+        }
+
+        .assistant-box {
+            display: none;
+            margin-bottom: 8px;
+            max-height: 55vh;
+            overflow: auto;
+        }
+
+        .assistant-results {
+            display: grid;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .assistant-result {
+            display: flex;
+            gap: 9px;
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+        }
+
+        .assistant-result img {
+            width: 54px;
+            height: 45px;
+            object-fit: cover;
+            border-radius: 7px;
+        }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 30px 18px;
+            text-align: center;
+            color: var(--muted);
+        }
+
+        .pagination {
+            margin-top: 22px;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        @media (max-width: 1000px) {
+            .grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+            .toolbar {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .hero,
+            .product-detail {
+                grid-template-columns: 1fr;
+            }
+
+            .grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .header {
+                padding: 10px 12px;
+            }
+
+            main {
+                width: min(100% - 20px, 1240px);
+                padding-top: 18px;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .toolbar {
+                grid-template-columns: 1fr;
+            }
+
+            .cart-item {
+                grid-template-columns: 60px 1fr;
+            }
+
+            .cart-item > :last-child {
+                grid-column: 2;
+            }
+        }
+
+        :focus-visible {
+            outline: 3px solid #f0ad4e;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="topbar">
+        <header class="header">
+            <a class="logo" href="#/">JUSTECH Market</a>
+
+            <div class="search">
+                <span class="search-icon">⌕</span>
+                <input
+                    id="search"
+                    type="search"
+                    placeholder="Search products..."
+                    aria-label="Search products"
+                >
+            </div>
+
+            <nav id="nav"></nav>
+        </header>
+    </div>
+
+    <main id="app" aria-live="polite"></main>
+
+    <div class="assistant">
+        <div id="assistantBox" class="card panel assistant-box"></div>
+
+        <div class="row">
+            <input
+                id="assistantInput"
+                placeholder="Ask: laptop under 500k"
+                aria-label="Shopping assistant"
+            >
+            <button id="assistantButton">Ask</button>
+        </div>
+    </div>
+
+    <div id="toast" class="toast" role="status"></div>
+
+    <footer>
+        <p>
+            This is a self-initiated concept project created by JUSTECH
+            to demonstrate web design and development skills.
+        </p>
+        <p>
+            © 2026 JUSTECH Market<br>
+            Designed &amp; Developed by JUSTECH
+        </p>
+    </footer>
+
+    <!-- Socket.IO MUST load before the application script. -->
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+        const $ = selector => document.querySelector(selector);
+        const app = $("#app");
+
+        let currentUser = null;
+        let socket = null;
+
+        function escapeHtml(value) {
+            return String(value ?? "").replace(/[&<>"']/g, char => ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;"
+            }[char]));
+        }
+
+        function money(value) {
+            return new Intl.NumberFormat("en-NG", {
+                style: "currency",
+                currency: "NGN",
+                maximumFractionDigits: 0
+            }).format(Number(value || 0));
+        }
+
+        function showToast(message) {
+            const toast = $("#toast");
+            toast.textContent = message;
+            toast.style.display = "block";
+
+            clearTimeout(showToast.timer);
+
+            showToast.timer = setTimeout(() => {
+                toast.style.display = "none";
+            }, 3000);
+        }
+
+        async function api(path, options = {}) {
+            const config = {
+                method: options.method || "GET",
+                credentials: "same-origin",
+                headers: {
+                    ...(options.body !== undefined
+                        ? { "Content-Type": "application/json" }
+                        : {})
+                }
+            };
+
+            if (options.body !== undefined) {
+                config.body = JSON.stringify(options.body);
+            }
+
+            const response = await fetch("/api" + path, config);
+
+            let data = {};
+
+            try {
+                data = await response.json();
+            } catch {
+                data = {};
+            }
+
+            if (!response.ok) {
+                throw new Error(data.error || "Something went wrong.");
+            }
+
+            return data;
+        }
+
+        function renderNav() {
+            $("#nav").innerHTML = currentUser
+                ? `
+                    <a href="#/">Shop</a>
+                    <a href="#/wishlist">Wishlist</a>
+                    <a href="#/cart">Cart</a>
+                    <a href="#/orders">Orders</a>
+                    <a href="#/notifications">🔔</a>
+                    <button id="logoutButton">
+                        Logout
+                    </button>
+                `
+                : `
+                    <a href="#/">Shop</a>
+                    <a href="#/cart">Cart</a>
+                    <a href="#/login">Login</a>
+                    <a href="#/register">Register</a>
+                `;
+
+            const logout = $("#logoutButton");
+
+            if (logout) {
+                logout.onclick = async () => {
+                    await api("/auth/logout", { method: "POST" });
+
+                    currentUser = null;
+
+                    if (socket) {
+                        socket.disconnect();
+                        socket = null;
+                    }
+
+                    renderNav();
+                    location.hash = "#/";
+                };
+            }
+        }
+
+        function connectSocket() {
+            if (!currentUser || !window.io) {
+                return;
+            }
+
+            if (socket) {
+                socket.disconnect();
+            }
+
+            socket = window.io({
+                withCredentials: true
+            });
+
+            socket.on("notification", data => {
+                showToast(data.body || "New notification.");
+            });
+        }
+
+        async function loadCurrentUser() {
+            try {
+                currentUser = await api("/me");
+            } catch {
+                currentUser = null;
+            }
+
+            renderNav();
+
+            if (currentUser) {
+                connectSocket();
+            }
+        }
+
+        function productCard(product) {
+            return `
+                <article class="card product-card">
+                    <a href="#/p/${encodeURIComponent(product.slug)}">
+                        <img
+                            class="product-image"
+                            src="${escapeHtml(
+                                product.image_url ||
+                                "https://placehold.co/700x520?text=Product"
+                            )}"
+                            alt="${escapeHtml(product.title)}"
+                            loading="lazy"
+                        >
+                    </a>
+
+                    <div class="product-body">
+                        <div class="muted">
+                            ${escapeHtml(product.category_name || "")}
+                        </div>
+
+                        <h3>
+                            <a href="#/p/${encodeURIComponent(product.slug)}">
+                                ${escapeHtml(product.title)}
+                            </a>
+                        </h3>
+
+                        <div>
+                            <span class="price">
+                                ${money(product.price)}
+                            </span>
+
+                            ${
+                                product.old_price
+                                    ? `
+                                        <span class="old-price">
+                                            ${money(product.old_price)}
+                                        </span>
+                                    `
+                                    : ""
+                            }
+                        </div>
+
+                        <div class="muted">
+                            <span class="rating">
+                                ★ ${escapeHtml(product.rating)}
+                            </span>
+                            (${escapeHtml(product.review_count || 0)})
+                            · ${escapeHtml(product.store_name)}
+                        </div>
+
+                        <div class="muted">
+                            ${
+                                Number(product.stock) > 0
+                                    ? `${product.stock} available`
+                                    : "Out of stock"
+                            }
+                        </div>
+                    </div>
+                </article>
+            `;
+        }
+
+        function homeHero() {
+            return `
+                <section class="hero">
+                    <div class="hero-main">
+                        <div class="muted">JUSTECH MARKET</div>
+                        <h1>Discover products from independent sellers.</h1>
+                        <p>
+                            A professional marketplace concept built by JUSTECH,
+                            with search, shopping, accounts, orders,
+                            wishlist, reviews and real-time notifications.
+                        </p>
+
+                        <div class="row">
+                            <a class="btn" href="#/">
+                                Explore products
+                            </a>
+                            <a class="btn secondary" href="#/register">
+                                Create account
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="hero-side">
+                        <h2>Shop smarter</h2>
+                        <p class="muted">
+                            Use the search bar or ask the shopping assistant
+                            to find products in the catalogue.
+                        </p>
+
+                        <div class="stack">
+                            <div>✓ Verified catalogue data</div>
+                            <div>✓ Secure account sessions</div>
+                            <div>✓ Real-time notifications</div>
+                            <div>✓ MySQL-powered marketplace</div>
+                        </div>
+                    </div>
+                </section>
+            `;
+        }
+
+        async function shop(params = new URLSearchParams()) {
+            app.innerHTML = `
+                ${homeHero()}
+                <div class="loading">Loading products...</div>
+            `;
+
+            try {
+                const query = params.toString();
+
+                const [categories, result] = await Promise.all([
+                    api("/categories"),
+                    api("/products" + (query ? "?" + query : ""))
+                ]);
+
+                app.innerHTML = `
+                    ${homeHero()}
+
+                    <div class="section-title">
+                        <h2>Explore products</h2>
+                        <span class="muted">
+                            ${result.total} product(s)
+                        </span>
+                    </div>
+
+                    <div class="toolbar">
+                        <select id="categoryFilter">
+                            <option value="">All categories</option>
+
+                            ${categories.map(category => `
+                                <option
+                                    value="${escapeHtml(category.slug)}"
+                                    ${
+                                        params.get("category") === category.slug
+                                            ? "selected"
+                                            : ""
+                                    }
+                                >
+                                    ${escapeHtml(category.name)}
+                                </option>
+                            `).join("")}
+                        </select>
+
+                        <select id="sortFilter">
+                            <option value="newest"
+                                ${params.get("sort") === "newest" ? "selected" : ""}>
+                                Newest
+                            </option>
+                            <option value="price_asc"
+                                ${params.get("sort") === "price_asc" ? "selected" : ""}>
+                                Price: Low to high
+                            </option>
+                            <option value="price_desc"
+                                ${params.get("sort") === "price_desc" ? "selected" : ""}>
+                                Price: High to low
+                            </option>
+                            <option value="rating"
+                                ${params.get("sort") === "rating" ? "selected" : ""}>
+                                Top rated
+                            </option>
+                        </select>
+
+                        <input
+                            id="minPrice"
+                            type="number"
+                            min="0"
+                            placeholder="Min price"
+                            value="${escapeHtml(params.get("min") || "")}"
+                        >
+
+                        <input
+                            id="maxPrice"
+                            type="number"
+                            min="0"
+                            placeholder="Max price"
+                            value="${escapeHtml(params.get("max") || "")}"
+                        >
+                    </div>
+
+                    ${
+                        result.items.length
+                            ? `
+                                <div class="grid">
+                                    ${result.items.map(productCard).join("")}
+                                </div>
+                            `
+                            : `
+                                <div class="card empty">
+                                    No products matched your search.
+                                </div>
+                            `
+                    }
+
+                    <div class="pagination">
+                        <button
+                            id="previousPage"
+                            class="secondary"
+                            ${result.page <= 1 ? "disabled" : ""}
+                        >
+                            Previous
+                        </button>
+
+                        <span class="muted">
+                            Page ${result.page} of ${result.pages}
+                        </span>
+
+                        <button
+                            id="nextPage"
+                            class="secondary"
+                            ${result.page >= result.pages ? "disabled" : ""}
+                        >
+                            Next
+                        </button>
+                    </div>
+                `;
+
+                function go(page) {
+                    const next = new URLSearchParams();
+
+                    const search = params.get("q");
+                    const category = $("#categoryFilter").value;
+                    const sort = $("#sortFilter").value;
+                    const min = $("#minPrice").value;
+                    const max = $("#maxPrice").value;
+
+                    if (search) next.set("q", search);
+                    if (category) next.set("category", category);
+                    if (sort) next.set("sort", sort);
+                    if (min) next.set("min", min);
+                    if (max) next.set("max", max);
+
+                    next.set("page", page);
+
+                    location.hash = "#/?" + next.toString();
+                }
+
+                $("#categoryFilter").onchange = () => go(1);
+                $("#sortFilter").onchange = () => go(1);
+                $("#minPrice").onchange = () => go(1);
+                $("#maxPrice").onchange = () => go(1);
+
+                $("#previousPage").onclick = () => go(result.page - 1);
+                $("#nextPage").onclick = () => go(result.page + 1);
+            } catch (error) {
+                app.innerHTML = `
+                    <div class="card panel error">
+                        ${escapeHtml(error.message)}
+                    </div>
+                `;
+            }
+        }
+
+        async function productPage(slug) {
+            app.innerHTML = `<div class="loading">Loading product...</div>`;
+
+            try {
+                const product = await api(
+                    "/products/" + encodeURIComponent(slug)
+                );
+
+                const specs = product.specs
+                    ? typeof product.specs === "string"
+                        ? JSON.parse(product.specs)
+                        : product.specs
+                    : {};
+
+                const images = product.images?.length
+                    ? product.images
+                    : [{
+                        image_url:
+                            product.image_url ||
+                            "https://placehold.co/700x520?text=Product"
+                    }];
+
+                app.innerHTML = `
+                    <div class="product-detail">
+                        <section>
+                            <img
+                                id="mainProductImage"
+                                class="gallery-main"
+                                src="${escapeHtml(images[0].image_url)}"
+                                alt="${escapeHtml(product.title)}"
+                            >
+
+                            <div class="thumbs">
+                                ${images.map(image => `
+                                    <img
+                                        src="${escapeHtml(image.image_url)}"
+                                        alt=""
+                                        data-image="${escapeHtml(image.image_url)}"
+                                    >
+                                `).join("")}
+                            </div>
+                        </section>
+
+                        <section class="card panel">
+                            <div class="muted">
+                                ${escapeHtml(product.category_name)}
+                            </div>
+
+                            <h1>${escapeHtml(product.title)}</h1>
+
+                            <div class="row">
+                                <span class="rating">
+                                    ★ ${escapeHtml(product.rating)}
+                                </span>
+                                <span class="muted">
+                                    ${product.review_count} reviews
+                                </span>
+                            </div>
+
+                            <p>
+                                <span class="price">
+                                    ${money(product.price)}
+                                </span>
+
+                                ${
+                                    product.old_price
+                                        ? `
+                                            <span class="old-price">
+                                                ${money(product.old_price)}
+                                            </span>
+                                        `
+                                        : ""
+                                }
+                            </p>
+
+                            <p class="muted">
+                                ${escapeHtml(product.description)}
+                            </p>
+
+                            <p>
+                                Sold by
+                                <strong>${escapeHtml(product.store_name)}</strong>
+                                ${
+                                    Number(product.seller_verified)
+                                        ? " ✓"
+                                        : ""
+                                }
+                            </p>
+
+                            <div class="form-group">
+                                <label>
+                                    Quantity
+                                    <input
+                                        id="productQuantity"
+                                        type="number"
+                                        min="1"
+                                        max="${product.stock}"
+                                        value="1"
+                                    >
+                                </label>
+                            </div>
+
+                            <div class="row">
+                                <button
+                                    id="addToCart"
+                                    ${product.stock < 1 ? "disabled" : ""}
+                                >
+                                    Add to cart
+                                </button>
+
+                                <button
+                                    id="buyNow"
+                                    class="secondary"
+                                    ${product.stock < 1 ? "disabled" : ""}
+                                >
+                                    Buy now
+                                </button>
+
+                                <button
+                                    id="wishlistButton"
+                                    class="secondary"
+                                >
+                                    ♡ Wishlist
+                                </button>
+                            </div>
+                        </section>
+                    </div>
+
+                    <section class="card panel" style="margin-top:20px">
+                        <h2>Specifications</h2>
+
+                        <table class="specs">
+                            ${Object.entries(specs).map(([key, value]) => `
+                                <tr>
+                                    <td class="muted">${escapeHtml(key)}</td>
+                                    <td>${escapeHtml(value)}</td>
+                                </tr>
+                            `).join("")}
+                        </table>
+                    </section>
+
+                    <section class="card panel" style="margin-top:20px">
+                        <h2>Reviews</h2>
+
+                        ${
+                            product.reviews?.length
+                                ? product.reviews.map(review => `
+                                    <div class="review">
+                                        <strong>
+                                            ${escapeHtml(review.name)}
+                                        </strong>
+
+                                        <div class="rating">
+                                            ${"★".repeat(Number(review.rating))}
+                                            ${"☆".repeat(5 - Number(review.rating))}
+                                        </div>
+
+                                        ${
+                                            review.title
+                                                ? `<strong>${escapeHtml(review.title)}</strong>`
+                                                : ""
+                                        }
+
+                                        <p>
+                                            ${escapeHtml(review.comment)}
+                                        </p>
+
+                                        <small class="muted">
+                                            ${new Date(review.created_at).toLocaleDateString()}
+                                        </small>
+                                    </div>
+                                `).join("")
+                                : `<p class="muted">No reviews yet.</p>`
+                        }
+
+                        ${
+                            currentUser
+                                ? `
+                                    <div style="margin-top:20px">
+                                        <h3>Write a review</h3>
+
+                                        <div class="form-group">
+                                            <label>
+                                                Rating
+                                                <select id="reviewRating">
+                                                    <option value="5">5 — Excellent</option>
+                                                    <option value="4">4 — Good</option>
+                                                    <option value="3">3 — Okay</option>
+                                                    <option value="2">2 — Poor</option>
+                                                    <option value="1">1 — Very poor</option>
+                                                </select>
+                                            </label>
+
+                                            <label>
+                                                Title
+                                                <input id="reviewTitle">
+                                            </label>
+
+                                            <label>
+                                                Comment
+                                                <textarea id="reviewComment" rows="4"></textarea>
+                                            </label>
+
+                                            <button id="submitReview">
+                                                Submit review
+                                            </button>
+                                        </div>
+                                    </div>
+                                `
+                                : `
+                                    <p class="muted">
+                                        Login to write a review.
+                                    </p>
+                                `
+                        }
+                    </section>
+                `;
+
+                document.querySelectorAll("[data-image]").forEach(image => {
+                    image.onclick = () => {
+                        $("#mainProductImage").src = image.dataset.image;
+                    };
+                });
+
+                async function add(quantity) {
+                    if (!currentUser) {
+                        location.hash = "#/login";
+                        return;
+                    }
+
+                    await api("/cart", {
+                        method: "POST",
+                        body: {
+                            product_id: product.id,
+                            quantity
+                        }
+                    });
+
+                    showToast("Added to cart.");
+                }
+
+                $("#addToCart").onclick = async () => {
+                    try {
+                        await add(Number($("#productQuantity").value));
+                    } catch (error) {
+                        showToast(error.message);
+                    }
+                };
+
+                $("#buyNow").onclick = async () => {
+                    try {
+                        await add(Number($("#productQuantity").value));
+                        location.hash = "#/cart";
+                    } catch (error) {
+                        showToast(error.message);
+                    }
+                };
+
+                $("#wishlistButton").onclick = async () => {
+                    if (!currentUser) {
+                        location.hash = "#/login";
+                        return;
+                    }
+
+                    try {
+                        await api("/wishlist/" + product.id, {
+                            method: "POST"
+                        });
+
+                        showToast("Added to wishlist.");
+                    } catch (error) {
+                        showToast(error.message);
+                    }
+                };
+
+                const reviewButton = $("#submitReview");
+
+                if (reviewButton) {
+                    reviewButton.onclick = async () => {
+                        try {
+                            await api(
+                                `/products/${product.id}/reviews`,
+                                {
+                                    method: "POST",
+                                    body: {
+                                        rating: Number($("#reviewRating").value),
+                                        title: $("#reviewTitle").value,
+                                        comment: $("#reviewComment").value
+                                    }
+                                }
+                            );
+
+                            showToast("Review submitted.");
+                            productPage(slug);
+                        } catch (error) {
+                            showToast(error.message);
+                        }
+                    };
+                }
+            } catch (error) {
+                app.innerHTML = `
+                    <div class="card panel error">
+                        ${escapeHtml(error.message)}
+                    </div>
+                `;
+            }
+        }
+
+        async function cartPage() {
+            if (!currentUser) {
+                location.hash = "#/login";
+                return;
+            }
+
+            app.innerHTML = `<div class="loading">Loading cart...</div>`;
+
+            try {
+                const items = await api("/cart");
+
+                if (!items.length) {
+                    app.innerHTML = `
+                        <div class="card empty">
+                            <h2>Your cart is empty.</h2>
+                            <a class="btn" href="#/">Continue shopping</a>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const total = items.reduce(
+                    (sum, item) =>
+                        sum + Number(item.price) * Number(item.quantity),
+                    0
+                );
+
+                app.innerHTML = `
+                    <div class="section-title">
+                        <h1>Your cart</h1>
+                        <span class="muted">
+                            ${items.length} item type(s)
+                        </span>
+                    </div>
+
+                    <div class="stack">
+                        ${items.map(item => `
+                            <div class="card cart-item">
+                                <img
+                                    src="${escapeHtml(
+                                        item.image_url ||
+                                        "https://placehold.co/700x520?text=Product"
+                                    )}"
+                                    alt=""
+                                >
+
+                                <div>
+                                    <strong>${escapeHtml(item.title)}</strong>
+
+                                    <div class="muted">
+                                        ${money(item.price)} each
+                                    </div>
+
+                                    <div class="quantity">
+                                        <button
+                                            data-action="decrease"
+                                            data-id="${item.product_id}"
+                                            data-quantity="${item.quantity}"
+                                        >
+                                            −
+                                        </button>
+
+                                        <span>${item.quantity}</span>
+
+                                        <button
+                                            data-action="increase"
+                                            data-id="${item.product_id}"
+                                            data-quantity="${item.quantity}"
+                                        >
+                                            +
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <strong>
+                                        ${money(
+                                            Number(item.price) *
+                                            Number(item.quantity)
+                                        )}
+                                    </strong>
+
+                                    <button
+                                        class="danger"
+                                        data-action="remove"
+                                        data-id="${item.product_id}"
+                                    >
+                                        Remove
+                                    </button>
+                                </div>
+                            </div>
+                        `).join("")}
+                    </div>
+
+                    <div class="card panel" style="margin-top:18px">
+                        <h2>Total: ${money(total)}</h2>
+
+                        <label>
+                            Delivery address
+                            <textarea
+                                id="deliveryAddress"
+                                rows="3"
+                                placeholder="Enter your delivery address"
+                            ></textarea>
+                        </label>
+
+                        <div class="row" style="margin-top:14px">
+                            <button id="placeOrder">
+                                Place order
+                            </button>
+                        </div>
+
+                        <p class="muted">
+                            Demo note: this version creates the order in
+                            MySQL but does not yet charge a real payment.
+                        </p>
+                    </div>
+                `;
+
+                document.querySelectorAll("[data-action]").forEach(button => {
+                    button.onclick = async () => {
+                        const id = button.dataset.id;
+                        const action = button.dataset.action;
+                        const oldQuantity = Number(button.dataset.quantity);
+
+                        try {
+                            if (action === "remove") {
+                                await api("/cart/" + id, {
+                                    method: "DELETE"
+                                });
+                            } else {
+                                const quantity =
+                                    action === "increase"
+                                        ? oldQuantity + 1
+                                        : oldQuantity - 1;
+
+                                await api("/cart/" + id, {
+                                    method: "PATCH",
+                                    body: { quantity }
+                                });
+                            }
+
+                            cartPage();
+                        } catch (error) {
+                            showToast(error.message);
+                        }
+                    };
+                });
+
+                $("#placeOrder").onclick = async () => {
+                    try {
+                        const result = await api("/checkout", {
+                            method: "POST",
+                            body: {
+                                address: $("#deliveryAddress").value
+                            }
+                        });
+
+                        app.innerHTML = `
+                            <div class="card panel">
+                                <h1>Order confirmed</h1>
+                                <p>
+                                    Order:
+                                    <strong>
+                                        ${escapeHtml(result.order_number)}
+                                    </strong>
+                                </p>
+                                <p>
+                                    Total:
+                                    <strong>${money(result.total)}</strong>
+                                </p>
+                                <a class="btn" href="#/orders">
+                                    View orders
+                                </a>
+                            </div>
+                        `;
+                    } catch (error) {
+                        showToast(error.message);
+                    }
+                };
+            } catch (error) {
+                app.innerHTML = `
+                    <div class="card panel error">
+                        ${escapeHtml(error.message)}
+                    </div>
+                `;
+            }
+        }
+
+        async function ordersPage() {
+            if (!currentUser) {
+                location.hash = "#/login";
+                return;
+            }
+
+            try {
+                const orders = await api("/orders");
+
+                app.innerHTML = `
+                    <div class="section-title">
+                        <h1>My orders</h1>
+                    </div>
+
+                    ${
+                        orders.length
+                            ? `
+                                <div class="stack">
+                                    ${orders.map(order => `
+                                        <div class="card panel">
+                                            <div class="row space-between">
+                                                <strong>
+                                                    ${escapeHtml(order.order_number)}
+                                                </strong>
+                                                <span>
+                                                    ${money(order.total)}
+                                                </span>
+                                            </div>
+
+                                            <p class="muted">
+                                                ${escapeHtml(order.status)}
+                                                ·
+                                                ${new Date(
+                                                    order.created_at
+                                                ).toLocaleString()}
+                                            </p>
+
+                                            <p>
+                                                ${escapeHtml(order.address)}
+                                            </p>
+                                        </div>
+                                    `).join("")}
+                                </div>
+                            `
+                            : `
+                                <div class="card empty">
+                                    You have no orders yet.
+                                </div>
+                            `
+                    }
+                `;
+            } catch (error) {
+                app.innerHTML = `
+                    <div class="card panel error">
+                        ${escapeHtml(error.message)}
+                    </div>
+                `;
+            }
+        }
+
+        async function wishlistPage() {
+            if (!currentUser) {
+                location.hash = "#/login";
+                return;
+            }
+
+            try {
+                const products = await api("/wishlist");
+
+                app.innerHTML = `
+                    <div class="section-title">
+                        <h1>My wishlist</h1>
+                    </div>
+
+                    ${
+                        products.length
+                            ? `
+                                <div class="grid">
+                                    ${products.map(productCard).join("")}
+                                </div>
+                            `
+                            : `
+                                <div class="card empty">
+                                    Your wishlist is empty.
+                                </div>
+                            `
+                    }
+                `;
+            } catch (error) {
+                app.innerHTML = `
+                    <div class="card panel error">
+                        ${escapeHtml(error.message)}
+                    </div>
+                `;
+            }
+        }
+
+        async function notificationsPage() {
+            if (!currentUser) {
+                location.hash = "#/login";
+                return;
+            }
+
+            try {
+                const notifications = await api("/notifications");
+
+                app.innerHTML = `
+                    <div class="section-title">
+                        <h1>Notifications</h1>
+                    </div>
+
+                    ${
+                        notifications.length
+                            ? `
+                                <div class="stack">
+                                    ${notifications.map(notification => `
+                                        <div class="card panel">
+                                            <div class="row space-between">
+                                                <strong>
+                                                    ${escapeHtml(notification.body)}
+                                                </strong>
+
+                                                ${
+                                                    Number(notification.is_read)
+                                                        ? ""
+                                                        : `
+                                                            <button
+                                                                data-read="${notification.id}"
+                                                                class="secondary"
+                                                            >
+                                                                Mark read
+                                                            </button>
+                                                        `
+                                                }
+                                            </div>
+
+                                            <small class="muted">
+                                                ${new Date(
+                                                    notification.created_at
+                                                ).toLocaleString()}
+                                            </small>
+                                        </div>
+                                    `).join("")}
+                                </div>
+                            `
+                            : `
+                                <div class="card empty">
+                                    No notifications yet.
+                                </div>
+                            `
+                    }
+                `;
+
+                document.querySelectorAll("[data-read]").forEach(button => {
+                    button.onclick = async () => {
+                        await api(
+                            "/notifications/" + button.dataset.read + "/read",
+                            { method: "PATCH" }
+                        );
+
+                        notificationsPage();
+                    };
+                });
+            } catch (error) {
+                app.innerHTML = `
+                    <div class="card panel error">
+                        ${escapeHtml(error.message)}
+                    </div>
+                `;
+            }
+        }
+
+        function authPage(mode) {
+            const register = mode === "register";
+
+            app.innerHTML = `
+                <div class="card form-card">
+                    <div class="panel">
+                        <h1>
+                            ${register ? "Create account" : "Welcome back"}
+                        </h1>
+
+                        <p class="muted">
+                            ${
+                                register
+                                    ? "Create your JUSTECH Market account."
+                                    : "Login to manage your shopping."
+                            }
+                        </p>
+
+                        <div class="form-group">
+                            ${
+                                register
+                                    ? `
+                                        <label>
+                                            Full name
+                                            <input id="authName">
+                                        </label>
+                                    `
+                                    : ""
+                            }
+
+                            <label>
+                                Email
+                                <input
+                                    id="authEmail"
+                                    type="email"
+                                >
+                            </label>
+
+                            <label>
+                                Password
+                                <input
+                                    id="authPassword"
+                                    type="password"
+                                    minlength="8"
+                                >
+                            </label>
+
+                            <button id="authSubmit">
+                                ${register ? "Create account" : "Login"}
+                            </button>
+                        </div>
+
+                        <p class="muted">
+                            ${
+                                register
+                                    ? `
+                                        Already have an account?
+                                        <a href="#/login">Login</a>
+                                    `
+                                    : `
+                                        Don't have an account?
+                                        <a href="#/register">Register</a>
+                                    `
+                            }
+                        </p>
+                    </div>
+                </div>
+            `;
+
+            $("#authSubmit").onclick = async () => {
+                try {
+                    const body = {
+                        email: $("#authEmail").value,
+                        password: $("#authPassword").value
+                    };
+
+                    if (register) {
+                        body.name = $("#authName").value;
+                    }
+
+                    const result = await api(
+                        register
+                            ? "/auth/register"
+                            : "/auth/login",
+                        {
+                            method: "POST",
+                            body
+                        }
+                    );
+
+                    currentUser = result;
+                    renderNav();
+                    connectSocket();
+
+                    showToast(
+                        register
+                            ? "Account created."
+                            : "Login successful."
+                    );
+
+                    location.hash = "#/";
+                } catch (error) {
+                    showToast(error.message);
+                }
+            };
+        }
+
+        async function assistant() {
+            const input = $("#assistantInput");
+            const box = $("#assistantBox");
+            const message = input.value.trim();
+
+            if (!message) {
+                return;
+            }
+
+            box.style.display = "block";
+            box.innerHTML = `<div class="loading">Searching catalogue...</div>`;
+
+            try {
+                const result = await api("/assistant", {
+                    method: "POST",
+                    body: { message }
+                });
+
+                box.innerHTML = `
+                    <strong>Shopping assistant</strong>
+                    <p>${escapeHtml(result.reply)}</p>
+
+                    ${
+                        result.products?.length
+                            ? `
+                                <div class="assistant-results">
+                                    ${result.products.map(product => `
+                                        <a
+                                            class="assistant-result"
+                                            href="#/p/${encodeURIComponent(product.slug)}"
+                                        >
+                                            <img
+                                                src="${escapeHtml(
+                                                    product.image_url ||
+                                                    "https://placehold.co/100x80?text=Product"
+                                                )}"
+                                                alt=""
+                                            >
+
+                                            <div>
+                                                <strong>
+                                                    ${escapeHtml(product.title)}
+                                                </strong>
+
+                                                <div>
+                                                    ${money(product.price)}
+                                                </div>
+                                            </div>
+                                        </a>
+                                    `).join("")}
+                                </div>
+                            `
+                            : ""
+                    }
+                `;
+            } catch (error) {
+                box.innerHTML = `
+                    <div class="error">
+                        ${escapeHtml(error.message)}
+                    </div>
+                `;
+            }
+        }
+
+        async function route() {
+            const raw = location.hash.slice(1) || "/";
+            const [path, queryString = ""] = raw.split("?");
+
+            if (path === "/" || path === "") {
+                shop(new URLSearchParams(queryString));
+                return;
+            }
+
+            if (path === "/cart") {
+                cartPage();
+                return;
+            }
+
+            if (path === "/orders") {
+                ordersPage();
+                return;
+            }
+
+            if (path === "/wishlist") {
+                wishlistPage();
+                return;
+            }
+
+            if (path === "/notifications") {
+                notificationsPage();
+                return;
+            }
+
+            if (path === "/login") {
+                authPage("login");
+                return;
+            }
+
+            if (path === "/register") {
+                authPage("register");
+                return;
+            }
+
+            if (path.startsWith("/p/")) {
+                productPage(decodeURIComponent(path.slice(3)));
+                return;
+            }
+
+            app.innerHTML = `
+                <div class="card empty">
+                    <h1>Page not found</h1>
+                    <a class="btn" href="#/">Return to shop</a>
+                </div>
+            `;
+        }
+
+        $("#search").addEventListener("keydown", event => {
+            if (event.key !== "Enter") {
+                return;
+            }
+
+            const value = event.target.value.trim();
+            const params = new URLSearchParams();
+
+            if (value) {
+                params.set("q", value);
+            }
+
+            location.hash = "#/?" + params.toString();
+        });
+
+        $("#assistantButton").onclick = assistant;
+
+        $("#assistantInput").addEventListener("keydown", event => {
+            if (event.key === "Enter") {
+                assistant();
+            }
+        });
+
+        window.addEventListener("hashchange", route);
+
+        (async function init() {
+            await loadCurrentUser();
+            route();
+        })();
+    </script>
+</body>
+</html>
